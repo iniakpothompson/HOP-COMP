@@ -1,0 +1,275 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20191102133237 extends AbstractMigration
+{
+    public function getDescription() : string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $this->addSql('CREATE TABLE amenity (id INT AUTO_INCREMENT NOT NULL, hotel_id INT NOT NULL, name VARCHAR(45) NOT NULL, INDEX IDX_AB6079633243BB18 (hotel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE area_of_presence (id INT AUTO_INCREMENT NOT NULL, Base_level VARCHAR(45) NOT NULL, Boost_level VARCHAR(45) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE bed_info (id INT AUTO_INCREMENT NOT NULL, room_id INT NOT NULL, Bed_type VARCHAR(45) NOT NULL, number_of_beds VARCHAR(45) NOT NULL, INDEX IDX_ED89E0F054177093 (room_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE blog (id INT AUTO_INCREMENT NOT NULL, blog_author_id INT NOT NULL, blog_title VARCHAR(45) NOT NULL, blog_content VARCHAR(45) NOT NULL, date_created DATETIME NOT NULL, date_modified DATETIME DEFAULT NULL, INDEX IDX_C0155143530B1B54 (blog_author_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE blog_author (id INT AUTO_INCREMENT NOT NULL, author_name VARCHAR(45) NOT NULL, author_address VARCHAR(45) NOT NULL, author_email VARCHAR(45) NOT NULL, author_phone_number VARCHAR(45) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE blog_comment (id INT AUTO_INCREMENT NOT NULL, guest_id INT NOT NULL, blog_id INT NOT NULL, name VARCHAR(45) NOT NULL, content VARCHAR(45) NOT NULL, created_date DATETIME NOT NULL, email VARCHAR(45) NOT NULL, INDEX IDX_7882EFEF9A4AA658 (guest_id), INDEX IDX_7882EFEFDAE07E97 (blog_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE blog_photo (id INT AUTO_INCREMENT NOT NULL, blog_id INT NOT NULL, image VARCHAR(45) DEFAULT NULL, INDEX IDX_E458C7D0DAE07E97 (blog_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE booking_details (id INT AUTO_INCREMENT NOT NULL, room_id INT NOT NULL, cancel_booking_id INT NOT NULL, status VARCHAR(45) NOT NULL COMMENT \'check_in or check_out. weither the person has\', date_booked DATETIME NOT NULL, date_checked_out DATETIME NOT NULL, `from` VARCHAR(45) NOT NULL, `to` VARCHAR(45) NOT NULL, checked_in_date DATETIME DEFAULT NULL, checked_out_date DATETIME DEFAULT NULL, number_of_rooms VARCHAR(45) NOT NULL, reference_number VARCHAR(45) NOT NULL, confirm_booking VARCHAR(45) NOT NULL, Guest_or_customer_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_28984EAACE681087 (Guest_or_customer_id), INDEX IDX_28984EAA54177093 (room_id), UNIQUE INDEX UNIQ_28984EAA14300375 (cancel_booking_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE branch (id INT AUTO_INCREMENT NOT NULL, branch_name VARCHAR(45) NOT NULL, town VARCHAR(45) NOT NULL, lga VARCHAR(45) NOT NULL, state VARCHAR(45) NOT NULL, country VARCHAR(45) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE cancelation_table (id INT AUTO_INCREMENT NOT NULL, booking_id INT NOT NULL, cancelation_number VARCHAR(45) NOT NULL, cancelation_status VARCHAR(45) NOT NULL, date DATETIME NOT NULL, Booking_Details_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_9E6542B2309BDFB3 (Booking_Details_id), UNIQUE INDEX UNIQ_9E6542B23301C60 (booking_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_address (id INT AUTO_INCREMENT NOT NULL, employees_id INT NOT NULL, address_type VARCHAR(45) NOT NULL, city VARCHAR(45) NOT NULL, lga VARCHAR(45) NOT NULL, state VARCHAR(45) NOT NULL, country VARCHAR(45) NOT NULL, INDEX IDX_8D02398E8520A30B (employees_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_allowance (id INT AUTO_INCREMENT NOT NULL, allowance_type VARCHAR(45) NOT NULL, amount VARCHAR(45) NOT NULL, date DATETIME NOT NULL, date_modified DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_bonus (id INT AUTO_INCREMENT NOT NULL, bonus_type VARCHAR(45) NOT NULL, bonus_amount VARCHAR(45) NOT NULL, date DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_contact (id INT AUTO_INCREMENT NOT NULL, employee_id INT NOT NULL, phone_number VARCHAR(45) NOT NULL, email VARCHAR(45) NOT NULL, home_phone_number VARCHAR(45) NOT NULL, cellular_number VARCHAR(45) NOT NULL, INDEX IDX_CC2EB0378C03F15C (employee_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_deduction (id INT AUTO_INCREMENT NOT NULL, amount VARCHAR(45) NOT NULL, description VARCHAR(45) NOT NULL, date DATETIME NOT NULL, date_modified DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_educational_qualification (id INT AUTO_INCREMENT NOT NULL, employee_id INT NOT NULL, educational_level VARCHAR(45) NOT NULL, certificate_obtain VARCHAR(45) NOT NULL, school_name VARCHAR(45) NOT NULL, start_date DATETIME NOT NULL, end_date DATETIME NOT NULL, INDEX IDX_85D7C3E98C03F15C (employee_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_promotion (id INT NOT NULL, employee_id INT NOT NULL, old_roll VARCHAR(45) NOT NULL, new_roll VARCHAR(45) NOT NULL, date DATETIME NOT NULL, Employee_Roll_id INT NOT NULL, UNIQUE INDEX UNIQ_C48D15938C03F15C (employee_id), PRIMARY KEY(id, Employee_Roll_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_roll (id INT AUTO_INCREMENT NOT NULL COMMENT \'this is the position table\', salary_id INT NOT NULL, roll_type VARCHAR(45) NOT NULL COMMENT \'N.B: the Roll_type will contain the following\', UNIQUE INDEX UNIQ_9B6C7889B0FDF16E (salary_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_roll_employees (employee_roll_id INT NOT NULL COMMENT \'this is the position table\', employees_id INT NOT NULL, INDEX IDX_CCFEB6292B473B29 (employee_roll_id), INDEX IDX_CCFEB6298520A30B (employees_id), PRIMARY KEY(employee_roll_id, employees_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employees (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, birth_date DATETIME NOT NULL, marital_status VARCHAR(45) NOT NULL, number_of_children VARCHAR(45) NOT NULL, image VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_BA82C300A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employees_employee_bonus (employees_id INT NOT NULL, employee_bonus_id INT NOT NULL, INDEX IDX_4BA8339D8520A30B (employees_id), INDEX IDX_4BA8339DF96B07A1 (employee_bonus_id), PRIMARY KEY(employees_id, employee_bonus_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employees_employee_allowance (employees_id INT NOT NULL, employee_allowance_id INT NOT NULL, INDEX IDX_A1865988520A30B (employees_id), INDEX IDX_A186598618C440 (employee_allowance_id), PRIMARY KEY(employees_id, employee_allowance_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employees_employee_deduction (employees_id INT NOT NULL, employee_deduction_id INT NOT NULL, INDEX IDX_2ED42888520A30B (employees_id), INDEX IDX_2ED4288D2CD3CE (employee_deduction_id), PRIMARY KEY(employees_id, employee_deduction_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_transfer_table (id INT AUTO_INCREMENT NOT NULL, employee_id INT NOT NULL, old_branch VARCHAR(45) NOT NULL, new_branch VARCHAR(45) NOT NULL, date DATETIME NOT NULL, Branch_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_968E26E5E274EEA (Branch_id), UNIQUE INDEX UNIQ_968E26E8C03F15C (employee_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE employee_work_experience (id INT AUTO_INCREMENT NOT NULL, employee_id INT NOT NULL, organisation_name VARCHAR(45) NOT NULL, position_held VARCHAR(45) NOT NULL, start_date DATETIME NOT NULL, end_date DATETIME NOT NULL, job_description VARCHAR(45) NOT NULL, INDEX IDX_4EAAD8748C03F15C (employee_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE extral_bed (id INT AUTO_INCREMENT NOT NULL, room_id INT NOT NULL, bed_type VARCHAR(45) NOT NULL, bed_number VARCHAR(45) NOT NULL, Guest_or_customer_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_D9D0E44DCE681087 (Guest_or_customer_id), INDEX IDX_D9D0E44D54177093 (room_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE faq (id INT AUTO_INCREMENT NOT NULL, employee_id INT NOT NULL, question VARCHAR(45) NOT NULL, answer VARCHAR(45) NOT NULL, date DATETIME NOT NULL, INDEX IDX_E8FF75CC8C03F15C (employee_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE guest_or_customer (id INT AUTO_INCREMENT NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, address VARCHAR(45) NOT NULL, city VARCHAR(45) NOT NULL, state VARCHAR(45) NOT NULL, country VARCHAR(45) NOT NULL, zipcode VARCHAR(45) NOT NULL, phone_number VARCHAR(45) NOT NULL, email_address VARCHAR(45) NOT NULL, gender VARCHAR(45) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE hotel_contact_table (id INT AUTO_INCREMENT NOT NULL, hotel_id INT NOT NULL, contact_person VARCHAR(45) NOT NULL, phone_number VARCHAR(45) NOT NULL, position VARCHAR(45) NOT NULL, website_address VARCHAR(45) NOT NULL, email_address VARCHAR(45) NOT NULL, fax_number VARCHAR(45) NOT NULL, INDEX IDX_5F16D1643243BB18 (hotel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE hotel_facility (id INT AUTO_INCREMENT NOT NULL, hotel_id INT NOT NULL, facility_name VARCHAR(45) NOT NULL, INDEX IDX_523846C03243BB18 (hotel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE hotel_location_details (id INT AUTO_INCREMENT NOT NULL, hot_id INT NOT NULL, city VARCHAR(45) NOT NULL, lga VARCHAR(45) NOT NULL, state VARCHAR(45) NOT NULL, country VARCHAR(45) NOT NULL, address VARCHAR(45) NOT NULL, INDEX IDX_AFD14B79335AE7E1 (hot_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE hotel_review (id INT AUTO_INCREMENT NOT NULL, hotel_id INT NOT NULL, guestor_customer_id INT NOT NULL, reviewer_name VARCHAR(45) NOT NULL, rating VARCHAR(45) NOT NULL, comment VARCHAR(45) NOT NULL, date DATETIME NOT NULL, INDEX IDX_E5A953A13243BB18 (hotel_id), INDEX IDX_E5A953A19DF16B63 (guestor_customer_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE hotels (id INT AUTO_INCREMENT NOT NULL, level_of_presence_id INT NOT NULL, h_name VARCHAR(45) NOT NULL, h_code VARCHAR(45) NOT NULL, h_motto VARCHAR(45) NOT NULL, INDEX IDX_E402F625D31E5B (level_of_presence_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE hotels_payment_type (hotels_id INT NOT NULL, payment_type_id INT NOT NULL, INDEX IDX_9482052CF42F66C8 (hotels_id), INDEX IDX_9482052CDC058279 (payment_type_id), PRIMARY KEY(hotels_id, payment_type_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE hotels_payment_method (hotels_id INT NOT NULL, payment_method_id INT NOT NULL, INDEX IDX_A64BE6A1F42F66C8 (hotels_id), INDEX IDX_A64BE6A15AA1164F (payment_method_id), PRIMARY KEY(hotels_id, payment_method_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE hotel_services (id INT AUTO_INCREMENT NOT NULL, hotel_id INT NOT NULL, hotel_services_name VARCHAR(45) NOT NULL, INDEX IDX_3153331B3243BB18 (hotel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE invoice (id INT AUTO_INCREMENT NOT NULL, hotel_id INT NOT NULL, room_charge NUMERIC(10, 0) NOT NULL, Rooms_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_9065174477550AFD (Rooms_id), INDEX IDX_906517443243BB18 (hotel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE loan (id INT AUTO_INCREMENT NOT NULL, employee_id INT NOT NULL, amount VARCHAR(45) NOT NULL, date_issued DATETIME NOT NULL, UNIQUE INDEX UNIQ_C5D30D038C03F15C (employee_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE loan_payment (id INT AUTO_INCREMENT NOT NULL, loans_id INT NOT NULL, repayment_plan VARCHAR(45) NOT NULL, payment_installmental_amount VARCHAR(45) NOT NULL, start_payingback_date DATETIME NOT NULL, payment_status DATETIME NOT NULL, end_payingback_date VARCHAR(45) NOT NULL, Employees_id INT DEFAULT NULL, Loan_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_43670A799D1178F3 (Employees_id), UNIQUE INDEX UNIQ_43670A791CEBF13 (Loan_id), INDEX IDX_43670A799AB85012 (loans_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE micelaneous_charges (id INT AUTO_INCREMENT NOT NULL, hotel_id INT NOT NULL, description VARCHAR(45) NOT NULL, amount VARCHAR(45) NOT NULL, Rooms_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_991ABD5877550AFD (Rooms_id), INDEX IDX_991ABD583243BB18 (hotel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE outside_booking (id INT AUTO_INCREMENT NOT NULL, hotel_id INT NOT NULL, date_from DATETIME NOT NULL COMMENT \'The date that the hotel start occupy\', date_to DATETIME NOT NULL COMMENT \'The date that the hotel start free/vacancy\', Hotels_id INT DEFAULT NULL, Rooms_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_9237063176DEE46B (Hotels_id), UNIQUE INDEX UNIQ_9237063177550AFD (Rooms_id), INDEX IDX_923706313243BB18 (hotel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE payment_details (id INT AUTO_INCREMENT NOT NULL, payment_method_id INT DEFAULT NULL, payment_type_id INT DEFAULT NULL, hotel_id INT NOT NULL, payment_description VARCHAR(45) NOT NULL, payment_amount VARCHAR(45) NOT NULL, Guest_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_6B6F0560633CC40E (Guest_id), UNIQUE INDEX UNIQ_6B6F05605AA1164F (payment_method_id), UNIQUE INDEX UNIQ_6B6F0560DC058279 (payment_type_id), INDEX IDX_6B6F05603243BB18 (hotel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE paymentMethod (id INT AUTO_INCREMENT NOT NULL, method VARCHAR(45) NOT NULL COMMENT \'Values will be online, onsite and pre-payment\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE payment_type (id INT AUTO_INCREMENT NOT NULL, card VARCHAR(45) NOT NULL, cash VARCHAR(45) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE point_of_interest (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(45) NOT NULL, description VARCHAR(45) NOT NULL, Hotels_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_E67AD35976DEE46B (Hotels_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE price (id INT AUTO_INCREMENT NOT NULL, room_id INT NOT NULL, price VARCHAR(45) NOT NULL, Hotels_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_CAC822D976DEE46B (Hotels_id), INDEX IDX_CAC822D954177093 (room_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE recruitment (id INT AUTO_INCREMENT NOT NULL, status VARCHAR(45) NOT NULL, date DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE remark_table (id INT AUTO_INCREMENT NOT NULL, remark_subject VARCHAR(45) NOT NULL, remark_content VARCHAR(45) NOT NULL, Guest_or_customer_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_5731B5D2CE681087 (Guest_or_customer_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE rooms (id INT AUTO_INCREMENT NOT NULL, hotel_id INT NOT NULL, floor VARCHAR(45) NOT NULL, room_number VARCHAR(45) NOT NULL, room_description VARCHAR(45) NOT NULL, room_status VARCHAR(45) NOT NULL, INDEX IDX_7CA11A963243BB18 (hotel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE room_types (id INT AUTO_INCREMENT NOT NULL, room_id INT NOT NULL, r_type VARCHAR(45) NOT NULL, r_description VARCHAR(45) NOT NULL, INDEX IDX_138C289B54177093 (room_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE salary (id INT AUTO_INCREMENT NOT NULL, emlpoyee_roll_id INT NOT NULL COMMENT \'this is the position table\', basic_salary VARCHAR(45) NOT NULL, grade_level VARCHAR(45) NOT NULL, step VARCHAR(45) NOT NULL, UNIQUE INDEX UNIQ_9413BB7149BD8949 (emlpoyee_roll_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE web_app_updateable_content (id INT AUTO_INCREMENT NOT NULL, employee_id INT NOT NULL, section VARCHAR(45) NOT NULL COMMENT \'section meaning which part does he want to update is it the footer or the header\', content VARCHAR(45) NOT NULL, image VARCHAR(45) NOT NULL, date DATETIME NOT NULL COMMENT \'this enanble us to know the date the update was made\', INDEX IDX_29AE6F3D8C03F15C (employee_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE amenity ADD CONSTRAINT FK_AB6079633243BB18 FOREIGN KEY (hotel_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE bed_info ADD CONSTRAINT FK_ED89E0F054177093 FOREIGN KEY (room_id) REFERENCES rooms (id)');
+        $this->addSql('ALTER TABLE blog ADD CONSTRAINT FK_C0155143530B1B54 FOREIGN KEY (blog_author_id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE blog_comment ADD CONSTRAINT FK_7882EFEF9A4AA658 FOREIGN KEY (guest_id) REFERENCES guest_or_customer (id)');
+        $this->addSql('ALTER TABLE blog_comment ADD CONSTRAINT FK_7882EFEFDAE07E97 FOREIGN KEY (blog_id) REFERENCES blog (id)');
+        $this->addSql('ALTER TABLE blog_photo ADD CONSTRAINT FK_E458C7D0DAE07E97 FOREIGN KEY (blog_id) REFERENCES blog (id)');
+        $this->addSql('ALTER TABLE booking_details ADD CONSTRAINT FK_28984EAACE681087 FOREIGN KEY (Guest_or_customer_id) REFERENCES guest_or_customer (id)');
+        $this->addSql('ALTER TABLE booking_details ADD CONSTRAINT FK_28984EAA54177093 FOREIGN KEY (room_id) REFERENCES rooms (id)');
+        $this->addSql('ALTER TABLE booking_details ADD CONSTRAINT FK_28984EAA14300375 FOREIGN KEY (cancel_booking_id) REFERENCES cancelation_table (id)');
+        $this->addSql('ALTER TABLE cancelation_table ADD CONSTRAINT FK_9E6542B2309BDFB3 FOREIGN KEY (Booking_Details_id) REFERENCES booking_details (id)');
+        $this->addSql('ALTER TABLE cancelation_table ADD CONSTRAINT FK_9E6542B23301C60 FOREIGN KEY (booking_id) REFERENCES booking_details (id)');
+        $this->addSql('ALTER TABLE employee_address ADD CONSTRAINT FK_8D02398E8520A30B FOREIGN KEY (employees_id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE employee_contact ADD CONSTRAINT FK_CC2EB0378C03F15C FOREIGN KEY (employee_id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE employee_educational_qualification ADD CONSTRAINT FK_85D7C3E98C03F15C FOREIGN KEY (employee_id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE employee_promotion ADD CONSTRAINT FK_C48D15938C03F15C FOREIGN KEY (employee_id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE employee_roll ADD CONSTRAINT FK_9B6C7889B0FDF16E FOREIGN KEY (salary_id) REFERENCES salary (id)');
+        $this->addSql('ALTER TABLE employee_roll_employees ADD CONSTRAINT FK_CCFEB6292B473B29 FOREIGN KEY (employee_roll_id) REFERENCES employee_roll (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE employee_roll_employees ADD CONSTRAINT FK_CCFEB6298520A30B FOREIGN KEY (employees_id) REFERENCES employees (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE employees ADD CONSTRAINT FK_BA82C300A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE employees_employee_bonus ADD CONSTRAINT FK_4BA8339D8520A30B FOREIGN KEY (employees_id) REFERENCES employees (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE employees_employee_bonus ADD CONSTRAINT FK_4BA8339DF96B07A1 FOREIGN KEY (employee_bonus_id) REFERENCES employee_bonus (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE employees_employee_allowance ADD CONSTRAINT FK_A1865988520A30B FOREIGN KEY (employees_id) REFERENCES employees (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE employees_employee_allowance ADD CONSTRAINT FK_A186598618C440 FOREIGN KEY (employee_allowance_id) REFERENCES employee_allowance (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE employees_employee_deduction ADD CONSTRAINT FK_2ED42888520A30B FOREIGN KEY (employees_id) REFERENCES employees (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE employees_employee_deduction ADD CONSTRAINT FK_2ED4288D2CD3CE FOREIGN KEY (employee_deduction_id) REFERENCES employee_deduction (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE employee_transfer_table ADD CONSTRAINT FK_968E26E5E274EEA FOREIGN KEY (Branch_id) REFERENCES branch (id)');
+        $this->addSql('ALTER TABLE employee_transfer_table ADD CONSTRAINT FK_968E26E8C03F15C FOREIGN KEY (employee_id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE employee_work_experience ADD CONSTRAINT FK_4EAAD8748C03F15C FOREIGN KEY (employee_id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE extral_bed ADD CONSTRAINT FK_D9D0E44DCE681087 FOREIGN KEY (Guest_or_customer_id) REFERENCES guest_or_customer (id)');
+        $this->addSql('ALTER TABLE extral_bed ADD CONSTRAINT FK_D9D0E44D54177093 FOREIGN KEY (room_id) REFERENCES rooms (id)');
+        $this->addSql('ALTER TABLE faq ADD CONSTRAINT FK_E8FF75CC8C03F15C FOREIGN KEY (employee_id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE hotel_contact_table ADD CONSTRAINT FK_5F16D1643243BB18 FOREIGN KEY (hotel_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE hotel_facility ADD CONSTRAINT FK_523846C03243BB18 FOREIGN KEY (hotel_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE hotel_location_details ADD CONSTRAINT FK_AFD14B79335AE7E1 FOREIGN KEY (hot_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE hotel_review ADD CONSTRAINT FK_E5A953A13243BB18 FOREIGN KEY (hotel_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE hotel_review ADD CONSTRAINT FK_E5A953A19DF16B63 FOREIGN KEY (guestor_customer_id) REFERENCES guest_or_customer (id)');
+        $this->addSql('ALTER TABLE hotels ADD CONSTRAINT FK_E402F625D31E5B FOREIGN KEY (level_of_presence_id) REFERENCES area_of_presence (id)');
+        $this->addSql('ALTER TABLE hotels_payment_type ADD CONSTRAINT FK_9482052CF42F66C8 FOREIGN KEY (hotels_id) REFERENCES hotels (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE hotels_payment_type ADD CONSTRAINT FK_9482052CDC058279 FOREIGN KEY (payment_type_id) REFERENCES payment_type (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE hotels_payment_method ADD CONSTRAINT FK_A64BE6A1F42F66C8 FOREIGN KEY (hotels_id) REFERENCES hotels (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE hotels_payment_method ADD CONSTRAINT FK_A64BE6A15AA1164F FOREIGN KEY (payment_method_id) REFERENCES paymentMethod (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE hotel_services ADD CONSTRAINT FK_3153331B3243BB18 FOREIGN KEY (hotel_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE invoice ADD CONSTRAINT FK_9065174477550AFD FOREIGN KEY (Rooms_id) REFERENCES rooms (id)');
+        $this->addSql('ALTER TABLE invoice ADD CONSTRAINT FK_906517443243BB18 FOREIGN KEY (hotel_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE loan ADD CONSTRAINT FK_C5D30D038C03F15C FOREIGN KEY (employee_id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE loan_payment ADD CONSTRAINT FK_43670A799D1178F3 FOREIGN KEY (Employees_id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE loan_payment ADD CONSTRAINT FK_43670A791CEBF13 FOREIGN KEY (Loan_id) REFERENCES loan (id)');
+        $this->addSql('ALTER TABLE loan_payment ADD CONSTRAINT FK_43670A799AB85012 FOREIGN KEY (loans_id) REFERENCES loan (id)');
+        $this->addSql('ALTER TABLE micelaneous_charges ADD CONSTRAINT FK_991ABD5877550AFD FOREIGN KEY (Rooms_id) REFERENCES rooms (id)');
+        $this->addSql('ALTER TABLE micelaneous_charges ADD CONSTRAINT FK_991ABD583243BB18 FOREIGN KEY (hotel_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE outside_booking ADD CONSTRAINT FK_9237063176DEE46B FOREIGN KEY (Hotels_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE outside_booking ADD CONSTRAINT FK_9237063177550AFD FOREIGN KEY (Rooms_id) REFERENCES rooms (id)');
+        $this->addSql('ALTER TABLE outside_booking ADD CONSTRAINT FK_923706313243BB18 FOREIGN KEY (hotel_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE payment_details ADD CONSTRAINT FK_6B6F0560633CC40E FOREIGN KEY (Guest_id) REFERENCES guest_or_customer (id)');
+        $this->addSql('ALTER TABLE payment_details ADD CONSTRAINT FK_6B6F05605AA1164F FOREIGN KEY (payment_method_id) REFERENCES paymentMethod (id)');
+        $this->addSql('ALTER TABLE payment_details ADD CONSTRAINT FK_6B6F0560DC058279 FOREIGN KEY (payment_type_id) REFERENCES payment_type (id)');
+        $this->addSql('ALTER TABLE payment_details ADD CONSTRAINT FK_6B6F05603243BB18 FOREIGN KEY (hotel_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE point_of_interest ADD CONSTRAINT FK_E67AD35976DEE46B FOREIGN KEY (Hotels_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE price ADD CONSTRAINT FK_CAC822D976DEE46B FOREIGN KEY (Hotels_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE price ADD CONSTRAINT FK_CAC822D954177093 FOREIGN KEY (room_id) REFERENCES rooms (id)');
+        $this->addSql('ALTER TABLE recruitment ADD CONSTRAINT FK_C7238C6EBF396750 FOREIGN KEY (id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE remark_table ADD CONSTRAINT FK_5731B5D2BF396750 FOREIGN KEY (id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE remark_table ADD CONSTRAINT FK_5731B5D2CE681087 FOREIGN KEY (Guest_or_customer_id) REFERENCES guest_or_customer (id)');
+        $this->addSql('ALTER TABLE rooms ADD CONSTRAINT FK_7CA11A963243BB18 FOREIGN KEY (hotel_id) REFERENCES hotels (id)');
+        $this->addSql('ALTER TABLE room_types ADD CONSTRAINT FK_138C289B54177093 FOREIGN KEY (room_id) REFERENCES rooms (id)');
+        $this->addSql('ALTER TABLE salary ADD CONSTRAINT FK_9413BB71BF396750 FOREIGN KEY (id) REFERENCES employees (id)');
+        $this->addSql('ALTER TABLE salary ADD CONSTRAINT FK_9413BB7149BD8949 FOREIGN KEY (emlpoyee_roll_id) REFERENCES employee_roll (id)');
+        $this->addSql('ALTER TABLE web_app_updateable_content ADD CONSTRAINT FK_29AE6F3D8C03F15C FOREIGN KEY (employee_id) REFERENCES employees (id)');
+    }
+
+    public function down(Schema $schema) : void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $this->addSql('ALTER TABLE hotels DROP FOREIGN KEY FK_E402F625D31E5B');
+        $this->addSql('ALTER TABLE blog_comment DROP FOREIGN KEY FK_7882EFEFDAE07E97');
+        $this->addSql('ALTER TABLE blog_photo DROP FOREIGN KEY FK_E458C7D0DAE07E97');
+        $this->addSql('ALTER TABLE cancelation_table DROP FOREIGN KEY FK_9E6542B2309BDFB3');
+        $this->addSql('ALTER TABLE cancelation_table DROP FOREIGN KEY FK_9E6542B23301C60');
+        $this->addSql('ALTER TABLE employee_transfer_table DROP FOREIGN KEY FK_968E26E5E274EEA');
+        $this->addSql('ALTER TABLE booking_details DROP FOREIGN KEY FK_28984EAA14300375');
+        $this->addSql('ALTER TABLE employees_employee_allowance DROP FOREIGN KEY FK_A186598618C440');
+        $this->addSql('ALTER TABLE employees_employee_bonus DROP FOREIGN KEY FK_4BA8339DF96B07A1');
+        $this->addSql('ALTER TABLE employees_employee_deduction DROP FOREIGN KEY FK_2ED4288D2CD3CE');
+        $this->addSql('ALTER TABLE employee_roll_employees DROP FOREIGN KEY FK_CCFEB6292B473B29');
+        $this->addSql('ALTER TABLE salary DROP FOREIGN KEY FK_9413BB7149BD8949');
+        $this->addSql('ALTER TABLE blog DROP FOREIGN KEY FK_C0155143530B1B54');
+        $this->addSql('ALTER TABLE employee_address DROP FOREIGN KEY FK_8D02398E8520A30B');
+        $this->addSql('ALTER TABLE employee_contact DROP FOREIGN KEY FK_CC2EB0378C03F15C');
+        $this->addSql('ALTER TABLE employee_educational_qualification DROP FOREIGN KEY FK_85D7C3E98C03F15C');
+        $this->addSql('ALTER TABLE employee_promotion DROP FOREIGN KEY FK_C48D15938C03F15C');
+        $this->addSql('ALTER TABLE employee_roll_employees DROP FOREIGN KEY FK_CCFEB6298520A30B');
+        $this->addSql('ALTER TABLE employees_employee_bonus DROP FOREIGN KEY FK_4BA8339D8520A30B');
+        $this->addSql('ALTER TABLE employees_employee_allowance DROP FOREIGN KEY FK_A1865988520A30B');
+        $this->addSql('ALTER TABLE employees_employee_deduction DROP FOREIGN KEY FK_2ED42888520A30B');
+        $this->addSql('ALTER TABLE employee_transfer_table DROP FOREIGN KEY FK_968E26E8C03F15C');
+        $this->addSql('ALTER TABLE employee_work_experience DROP FOREIGN KEY FK_4EAAD8748C03F15C');
+        $this->addSql('ALTER TABLE faq DROP FOREIGN KEY FK_E8FF75CC8C03F15C');
+        $this->addSql('ALTER TABLE loan DROP FOREIGN KEY FK_C5D30D038C03F15C');
+        $this->addSql('ALTER TABLE loan_payment DROP FOREIGN KEY FK_43670A799D1178F3');
+        $this->addSql('ALTER TABLE recruitment DROP FOREIGN KEY FK_C7238C6EBF396750');
+        $this->addSql('ALTER TABLE remark_table DROP FOREIGN KEY FK_5731B5D2BF396750');
+        $this->addSql('ALTER TABLE salary DROP FOREIGN KEY FK_9413BB71BF396750');
+        $this->addSql('ALTER TABLE web_app_updateable_content DROP FOREIGN KEY FK_29AE6F3D8C03F15C');
+        $this->addSql('ALTER TABLE blog_comment DROP FOREIGN KEY FK_7882EFEF9A4AA658');
+        $this->addSql('ALTER TABLE booking_details DROP FOREIGN KEY FK_28984EAACE681087');
+        $this->addSql('ALTER TABLE extral_bed DROP FOREIGN KEY FK_D9D0E44DCE681087');
+        $this->addSql('ALTER TABLE hotel_review DROP FOREIGN KEY FK_E5A953A19DF16B63');
+        $this->addSql('ALTER TABLE payment_details DROP FOREIGN KEY FK_6B6F0560633CC40E');
+        $this->addSql('ALTER TABLE remark_table DROP FOREIGN KEY FK_5731B5D2CE681087');
+        $this->addSql('ALTER TABLE amenity DROP FOREIGN KEY FK_AB6079633243BB18');
+        $this->addSql('ALTER TABLE hotel_contact_table DROP FOREIGN KEY FK_5F16D1643243BB18');
+        $this->addSql('ALTER TABLE hotel_facility DROP FOREIGN KEY FK_523846C03243BB18');
+        $this->addSql('ALTER TABLE hotel_location_details DROP FOREIGN KEY FK_AFD14B79335AE7E1');
+        $this->addSql('ALTER TABLE hotel_review DROP FOREIGN KEY FK_E5A953A13243BB18');
+        $this->addSql('ALTER TABLE hotels_payment_type DROP FOREIGN KEY FK_9482052CF42F66C8');
+        $this->addSql('ALTER TABLE hotels_payment_method DROP FOREIGN KEY FK_A64BE6A1F42F66C8');
+        $this->addSql('ALTER TABLE hotel_services DROP FOREIGN KEY FK_3153331B3243BB18');
+        $this->addSql('ALTER TABLE invoice DROP FOREIGN KEY FK_906517443243BB18');
+        $this->addSql('ALTER TABLE micelaneous_charges DROP FOREIGN KEY FK_991ABD583243BB18');
+        $this->addSql('ALTER TABLE outside_booking DROP FOREIGN KEY FK_9237063176DEE46B');
+        $this->addSql('ALTER TABLE outside_booking DROP FOREIGN KEY FK_923706313243BB18');
+        $this->addSql('ALTER TABLE payment_details DROP FOREIGN KEY FK_6B6F05603243BB18');
+        $this->addSql('ALTER TABLE point_of_interest DROP FOREIGN KEY FK_E67AD35976DEE46B');
+        $this->addSql('ALTER TABLE price DROP FOREIGN KEY FK_CAC822D976DEE46B');
+        $this->addSql('ALTER TABLE rooms DROP FOREIGN KEY FK_7CA11A963243BB18');
+        $this->addSql('ALTER TABLE loan_payment DROP FOREIGN KEY FK_43670A791CEBF13');
+        $this->addSql('ALTER TABLE loan_payment DROP FOREIGN KEY FK_43670A799AB85012');
+        $this->addSql('ALTER TABLE hotels_payment_method DROP FOREIGN KEY FK_A64BE6A15AA1164F');
+        $this->addSql('ALTER TABLE payment_details DROP FOREIGN KEY FK_6B6F05605AA1164F');
+        $this->addSql('ALTER TABLE hotels_payment_type DROP FOREIGN KEY FK_9482052CDC058279');
+        $this->addSql('ALTER TABLE payment_details DROP FOREIGN KEY FK_6B6F0560DC058279');
+        $this->addSql('ALTER TABLE bed_info DROP FOREIGN KEY FK_ED89E0F054177093');
+        $this->addSql('ALTER TABLE booking_details DROP FOREIGN KEY FK_28984EAA54177093');
+        $this->addSql('ALTER TABLE extral_bed DROP FOREIGN KEY FK_D9D0E44D54177093');
+        $this->addSql('ALTER TABLE invoice DROP FOREIGN KEY FK_9065174477550AFD');
+        $this->addSql('ALTER TABLE micelaneous_charges DROP FOREIGN KEY FK_991ABD5877550AFD');
+        $this->addSql('ALTER TABLE outside_booking DROP FOREIGN KEY FK_9237063177550AFD');
+        $this->addSql('ALTER TABLE price DROP FOREIGN KEY FK_CAC822D954177093');
+        $this->addSql('ALTER TABLE room_types DROP FOREIGN KEY FK_138C289B54177093');
+        $this->addSql('ALTER TABLE employee_roll DROP FOREIGN KEY FK_9B6C7889B0FDF16E');
+        $this->addSql('ALTER TABLE employees DROP FOREIGN KEY FK_BA82C300A76ED395');
+        $this->addSql('DROP TABLE amenity');
+        $this->addSql('DROP TABLE area_of_presence');
+        $this->addSql('DROP TABLE bed_info');
+        $this->addSql('DROP TABLE blog');
+        $this->addSql('DROP TABLE blog_author');
+        $this->addSql('DROP TABLE blog_comment');
+        $this->addSql('DROP TABLE blog_photo');
+        $this->addSql('DROP TABLE booking_details');
+        $this->addSql('DROP TABLE branch');
+        $this->addSql('DROP TABLE cancelation_table');
+        $this->addSql('DROP TABLE employee_address');
+        $this->addSql('DROP TABLE employee_allowance');
+        $this->addSql('DROP TABLE employee_bonus');
+        $this->addSql('DROP TABLE employee_contact');
+        $this->addSql('DROP TABLE employee_deduction');
+        $this->addSql('DROP TABLE employee_educational_qualification');
+        $this->addSql('DROP TABLE employee_promotion');
+        $this->addSql('DROP TABLE employee_roll');
+        $this->addSql('DROP TABLE employee_roll_employees');
+        $this->addSql('DROP TABLE employees');
+        $this->addSql('DROP TABLE employees_employee_bonus');
+        $this->addSql('DROP TABLE employees_employee_allowance');
+        $this->addSql('DROP TABLE employees_employee_deduction');
+        $this->addSql('DROP TABLE employee_transfer_table');
+        $this->addSql('DROP TABLE employee_work_experience');
+        $this->addSql('DROP TABLE extral_bed');
+        $this->addSql('DROP TABLE faq');
+        $this->addSql('DROP TABLE guest_or_customer');
+        $this->addSql('DROP TABLE hotel_contact_table');
+        $this->addSql('DROP TABLE hotel_facility');
+        $this->addSql('DROP TABLE hotel_location_details');
+        $this->addSql('DROP TABLE hotel_review');
+        $this->addSql('DROP TABLE hotels');
+        $this->addSql('DROP TABLE hotels_payment_type');
+        $this->addSql('DROP TABLE hotels_payment_method');
+        $this->addSql('DROP TABLE hotel_services');
+        $this->addSql('DROP TABLE invoice');
+        $this->addSql('DROP TABLE loan');
+        $this->addSql('DROP TABLE loan_payment');
+        $this->addSql('DROP TABLE micelaneous_charges');
+        $this->addSql('DROP TABLE outside_booking');
+        $this->addSql('DROP TABLE payment_details');
+        $this->addSql('DROP TABLE paymentMethod');
+        $this->addSql('DROP TABLE payment_type');
+        $this->addSql('DROP TABLE point_of_interest');
+        $this->addSql('DROP TABLE price');
+        $this->addSql('DROP TABLE recruitment');
+        $this->addSql('DROP TABLE remark_table');
+        $this->addSql('DROP TABLE rooms');
+        $this->addSql('DROP TABLE room_types');
+        $this->addSql('DROP TABLE salary');
+        $this->addSql('DROP TABLE user');
+        $this->addSql('DROP TABLE web_app_updateable_content');
+    }
+}

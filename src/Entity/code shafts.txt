@@ -1,0 +1,16 @@
+@ApiFilter(
+ *              SearchFilter::class,
+ *              properties={
+ *                      "hName":"partial",
+ *						"locations":"exact",
+ *                      "locations.city":"partial",
+ *						"locations.state":"partial",
+ *						"locations.country":"partial"
+ *                                            
+ *                   }
+ *          )
+ 
+ 
+ 
+ ,"posthotelimg","hloc","hrev","hfac","hcondet","hserv","hinv",
+ *															"hpaydet","hpayType","hpayMeth","hRoom","houtBookn","hamen"

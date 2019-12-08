@@ -1,0 +1,58 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+#security:
+#    providers:
+#        database:
+#            entity:
+#              # the class of the entity that represents users
+#                class: App\Entity\User
+#                # the property to query by - e.g. username, email, etc
+#                property: email
+#    firewalls:
+#        dev:
+#            pattern: ^/(_(profiler|wdt)|css|images|js)/
+#            security: false
+#        api:
+#            pattern: ^/api
+#            stateless: true
+#            anonymous: true
+#            json_login:
+#                # Handles successful authentication
+#                check_path: /api/login_check
+#                success_handler: lexik_jwt_authentication.handler.authentication_success
+#                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+#            guard:
+#                authenticators:
+#                    - lexik_jwt_authentication.jwt_token_authenticator
+#    access_control:
+#      - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#      - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    App\Serializer\AdminContextBuilder:
+      decorates: 'api_platform.serializer.context_builder'
+      arguments: [ '@App\Serializer\AdminContextBuilder.inner' ]
+      autoconfigure: false
+    # please note that last definitions always *replace* previous ones

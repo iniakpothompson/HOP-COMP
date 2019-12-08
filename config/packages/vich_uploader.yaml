@@ -1,0 +1,16 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        hotel_images:
+            uri_prefix: /images/hotel_images
+            upload_destination: '%kernel.project_dir%/public/images/hotel_images'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+        blog_images:
+             uri_prefix: /images/blog_images
+             upload_destination: '%kernel.project_dir%/public/images/blog_images'
+             namer: Vich\UploaderBundle\Naming\UniqidNamer
+        user_images:
+            uri_prefix: /images/user_images
+            upload_destination: '%kernel.project_dir%/public/images/user_images'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
