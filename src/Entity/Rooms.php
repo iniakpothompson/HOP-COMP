@@ -65,12 +65,7 @@ class Rooms
     private $roomStatus;
 
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Hotels", inversedBy="rooms")
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
-     * @Groups({"insert","retrieve"})
-     */
-    private $hotel;
+    
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\RoomTypes", mappedBy="room", orphanRemoval=true)
@@ -79,12 +74,7 @@ class Rooms
      */
     private $roomType;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Price", mappedBy="room", orphanRemoval=true)
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
-     * @Groups({"insert","retrieve"})
-     */
-    private $price;
+ 
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ExtralBed", mappedBy="room")
@@ -107,6 +97,11 @@ class Rooms
      */
     private $bookingDetails;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\RoomAmenities", mappedBy="room")
+     */
+    private $amenities;
+
 
 
     public function __construct()
@@ -116,6 +111,7 @@ class Rooms
         $this->extraBed = new ArrayCollection();
         $this->bedInfo = new ArrayCollection();
         $this->bookingDetails = new ArrayCollection();
+        $this->amenities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -172,17 +168,7 @@ class Rooms
     }
 
 
-    public function getHotel(): ?Hotels
-    {
-        return $this->hotel;
-    }
-
-    public function setHotel(?Hotels $hotel): self
-    {
-        $this->hotel = $hotel;
-
-        return $this;
-    }
+   
 
     /**
      * @return Collection|RoomTypes[]
@@ -215,37 +201,7 @@ class Rooms
         return $this;
     }
 
-    /**
-     * @return Collection|Price[]
-     */
-    public function getPrice(): Collection
-    {
-        return $this->price;
-    }
-
-    public function addPrice(Price $price): self
-    {
-        if (!$this->price->contains($price)) {
-            $this->price[] = $price;
-            $price->setRoom($this);
-        }
-
-        return $this;
-    }
-
-    public function removePrice(Price $price): self
-    {
-        if ($this->price->contains($price)) {
-            $this->price->removeElement($price);
-            // set the owning side to null (unless already changed)
-            if ($price->getRoom() === $this) {
-                $price->setRoom(null);
-            }
-        }
-
-        return $this;
-    }
-
+ 
     /**
      * @return Collection|ExtralBed[]
      */
@@ -334,6 +290,34 @@ class Rooms
             if ($bookingDetail->getRoom() === $this) {
                 $bookingDetail->setRoom(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RoomAmenities[]
+     */
+    public function getAmenities(): Collection
+    {
+        return $this->amenities;
+    }
+
+    public function addAmenity(RoomAmenities $amenity): self
+    {
+        if (!$this->amenities->contains($amenity)) {
+            $this->amenities[] = $amenity;
+            $amenity->addRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAmenity(RoomAmenities $amenity): self
+    {
+        if ($this->amenities->contains($amenity)) {
+            $this->amenities->removeElement($amenity);
+            $amenity->removeRoom($this);
         }
 
         return $this;

@@ -21,10 +21,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * @ApiFilter(
  *              SearchFilter::class,
  *              properties={
- *                      "hName":"partial",
- *                      "locations":"exact",
- *                      "hotelReviews":"exact",
- *                      "levelOfPresence":"exact"
+ *                      "hName":"partial"
+ *                  
  *                   }
  *          )
  *  @ApiResource(
@@ -157,12 +155,12 @@ class Hotels
     private $payMethod;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Rooms", mappedBy="hotel", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\RoomTypes", mappedBy="hotel", orphanRemoval=true)
      * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
      * @ApiSubresource()
      * @Groups({"insert"})
      */
-    private $rooms;
+    private $roomTypes;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\MicelaneousCharges", mappedBy="hotel")
@@ -206,6 +204,11 @@ class Hotels
      */
     private $hAmenities;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\AttractionLocations", mappedBy="hotel")
+     */
+    private $attractions;
+
     
 
     public function __construct()
@@ -219,13 +222,14 @@ class Hotels
         $this->paymentDetails = new ArrayCollection();
         $this->paymentType = new ArrayCollection();
         $this->payMethod = new ArrayCollection();
-        $this->rooms = new ArrayCollection();
+        
         $this->miscCharges = new ArrayCollection();
         $this->outBooking = new ArrayCollection();
         $this->amenity = new ArrayCollection();
         $this->hImages=new ArrayCollection();
         $this->locations = new ArrayCollection();
         $this->hAmenities = new ArrayCollection();
+        $this->attractions = new ArrayCollection();
        
     }
 
@@ -514,36 +518,7 @@ class Hotels
         return $this;
     }
 
-    /**
-     * @return Collection|Rooms[]
-     */
-    public function getRooms(): Collection
-    {
-        return $this->rooms;
-    }
-
-    public function addRoom(Rooms $room): self
-    {
-        if (!$this->rooms->contains($room)) {
-            $this->rooms[] = $room;
-            $room->setHotel($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRoom(Rooms $room): self
-    {
-        if ($this->rooms->contains($room)) {
-            $this->rooms->removeElement($room);
-            // set the owning side to null (unless already changed)
-            if ($room->getHotel() === $this) {
-                $room->setHotel(null);
-            }
-        }
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection|MicelaneousCharges[]
@@ -713,6 +688,34 @@ class Hotels
         if ($this->hAmenities->contains($hAmenity)) {
             $this->hAmenities->removeElement($hAmenity);
             $hAmenity->removeHotel($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AttractionLocations[]
+     */
+    public function getAttractions(): Collection
+    {
+        return $this->attractions;
+    }
+
+    public function addAttraction(AttractionLocations $attraction): self
+    {
+        if (!$this->attractions->contains($attraction)) {
+            $this->attractions[] = $attraction;
+            $attraction->addHotel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttraction(AttractionLocations $attraction): self
+    {
+        if ($this->attractions->contains($attraction)) {
+            $this->attractions->removeElement($attraction);
+            $attraction->removeHotel($this);
         }
 
         return $this;

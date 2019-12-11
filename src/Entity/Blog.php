@@ -2,14 +2,19 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiSubresource;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
+use App\Entity\BlogPhoto;
+use App\Entity\Employees;
+use App\Entity\BlogComment;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\AuthoredEntityInterface;
+use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Blog
@@ -31,7 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                         collectionOperations={
  *                                                      "post"={
  *                                                                  
- 																	"denormalization-context"={"groups"={"insert"}}
+ 																	"denormalization_context"={"groups"={"insert"}}
  *                                                              },
  *                                                       "get"={
  *                                                                  "normalization_context"={"groups"={"retrieve_blogs","get_blog_photos"}},
@@ -126,7 +131,7 @@ class Blog implements AuthoredEntityInterface
      * @param Employees $blogAuthor
      * @return Employees
      */
-    public function setBlog(Employees $blogAuthor): Employees
+    public function setBlog(User $blogAuthor): User
     {
         $this->id = $blogAuthor;
     }
